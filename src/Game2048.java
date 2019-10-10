@@ -49,15 +49,18 @@ public class Game2048 extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 Random r = new Random();
-                int n = r.nextInt(5);
+                int n = r.nextInt(15);
                 switch (e.getKeyCode()) {
                     case (KeyEvent.VK_SPACE):
                         if(true){
-                            moveRight();
                             moveDown();
                             moveLeft();
-                            moveUp();
-
+                            if(tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null || n <= 2){
+                                moveUp();
+                            }
+                            else if(tiles[0][0] != null){
+                                moveRight();
+                            }
                         }
                     case(KeyEvent.VK_ESCAPE):
                         repaint();
