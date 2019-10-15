@@ -62,11 +62,14 @@ public class Game2048 extends JPanel {
                                 moveRight();
                             }
                         }
+                        break;
                     case(KeyEvent.VK_ESCAPE):
-                        repaint();
-                        startGame();
-                        repaint();
-
+                        if(true) {
+                            repaint();
+                            gamestate = State.start;
+                            startGame();
+                            repaint();
+                        }
 //                        if(n == 5){
 //                            moveLeft();
 //                        }
