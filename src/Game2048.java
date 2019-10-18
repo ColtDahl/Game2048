@@ -53,13 +53,17 @@ public class Game2048 extends JPanel {
                 switch (e.getKeyCode()) {
                     case (KeyEvent.VK_SPACE):
                         if(true){
-                            moveDown();
                             moveLeft();
-                            if(tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null || n <= 2){
-                                moveUp();
-                            }
-                            else if(tiles[0][0] != null){
+                            moveDown();
+                            if(tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null){
                                 moveRight();
+                                moveDown();
+                            }
+                            if (tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null &&
+                                    tiles[2][0] !=null && tiles[2][1] != null && tiles[2][2] != null && tiles[2][3] != null &&
+                            tiles[3][0] !=null && tiles[3][1] != null && tiles[3][2] != null && tiles[3][3] != null || n<=2){
+                                moveUp();
+                                moveLeft();
                             }
                         }
                         break;
@@ -75,6 +79,9 @@ public class Game2048 extends JPanel {
 //                        }
 //                        else
 //                            moveRight();
+                        break;
+                    case(KeyEvent.VK_UP):
+                        moveUp();
                         break;
                     case KeyEvent.VK_DOWN:
                         moveDown();
@@ -170,7 +177,7 @@ public class Game2048 extends JPanel {
 
 
     private void addRandomTile() {
-        int pos = rand.nextInt(side * side);
+        int pos =  -1;//rand.nextInt(side * side);
         int row, col;
         do {
             pos = (pos + 1) % (side * side);
@@ -178,7 +185,7 @@ public class Game2048 extends JPanel {
             col = pos % side;
         } while (tiles[row][col] != null);
 
-        int val = rand.nextInt(10) == 0 ? 4 : 2;
+        int val = 2;
         tiles[row][col] = new Tile(val);
     }
 
