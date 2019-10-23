@@ -53,18 +53,19 @@ public class Game2048 extends JPanel {
                 switch (e.getKeyCode()) {
                     case (KeyEvent.VK_SPACE):
                         if(true){
-                            moveLeft();
                             moveDown();
+                            moveRight();
                             if(tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null){
                                 moveRight();
                                 moveDown();
+                                moveLeft();
                             }
-                            if (tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null &&
+                            /*if (tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null &&
                                     tiles[2][0] !=null && tiles[2][1] != null && tiles[2][2] != null && tiles[2][3] != null &&
                             tiles[3][0] !=null && tiles[3][1] != null && tiles[3][2] != null && tiles[3][3] != null || n<=2){
                                 moveUp();
                                 moveLeft();
-                            }
+                            }*/
                         }
                         break;
                     case(KeyEvent.VK_ESCAPE):
