@@ -26,6 +26,7 @@ public class Game2048 extends JPanel {
 
     private Random rand = new Random();
 
+
     private Tile[][] tiles;
     private int side = 4;
     private State gamestate = State.start;
@@ -49,22 +50,92 @@ public class Game2048 extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 Random r = new Random();
-                int n = r.nextInt(15);
                 switch (e.getKeyCode()) {
                     case (KeyEvent.VK_SPACE):
                         if(true){
-                            moveDown();
-                            moveRight();
-                            if(tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null){
+                            int downScore = 0,upScore = 0,rightScore = 0,leftScore = 0;
+                            int n = r.nextInt(15);
+//                            if(n==15) {
+//                                moveDown();
+//                                moveRight();
+//                            }
+
+
+                            for (int i =0;i > 3;i++){
+                                if(tiles[0][i].getValue()==tiles[1][i].getValue()) {
+                                    downScore+=tiles[0][i].getValue();
+                                }
+                            }
+                            for (int i =0;i > 3;i++) {
+                                if (tiles[1][i].getValue() == tiles[2][i].getValue()) {
+                                    downScore+=tiles[1][i].getValue();
+                                }
+                            }
+                            for (int i = 0; i > 3; i++) {
+                                if (tiles[2][i].getValue() == tiles[3][i].getValue()) {
+                                    downScore+=tiles[2][i].getValue();
+                                }
+                            }
+                            for (int i = 0; i > 3; i++) {
+                                if (tiles[3][i].getValue() == tiles[3][i].getValue()) {
+                                    downScore+=tiles[3][i].getValue();
+                                }
+                                }
+
+                            for (int i =0;i > 3;i++){
+                                if(tiles[i][0].getValue()==tiles[i][1].getValue()) {
+                                    rightScore+=tiles[i][0].getValue();
+                                }
+                            }
+                            for (int i =0;i > 3;i++) {
+                                if (tiles[i][1].getValue() == tiles[i][2].getValue()) {
+                                    rightScore+=tiles[i][1].getValue();
+                                }
+                            }
+                            for (int i = 0; i > 3; i++) {
+                                if (tiles[i][2].getValue() == tiles[i][3].getValue()) {
+                                    rightScore+=tiles[i][2].getValue();
+                                }
+                            }
+                            for (int i = 0; i > 3; i++) {
+                                if (tiles[i][3].getValue() == tiles[i][3].getValue()) {
+                                    rightScore+=tiles[i][3].getValue();
+                                }
+                            }
+
+
+                            if (downScore>rightScore){
+                                moveDown();
+                            }
+                            else if (downScore<rightScore){
+                                moveRight();
+                            }
+                            else{
+                                moveDown();
+                                moveRight();
+                            }
+
+
+
+
+
+
+
+
+
+
+
+
+//                            if(tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null){
+//                                moveRight();
+//                                moveDown();
+//                                moveLeft();
+//                            }
+
+                           /*if (tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null &&
+                                    tiles[2][0] !=null && tiles[2][1] != null && tiles[2][2] != null && tiles[2][3] != null){
                                 moveRight();
                                 moveDown();
-                                moveLeft();
-                            }
-                            /*if (tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null &&
-                                    tiles[2][0] !=null && tiles[2][1] != null && tiles[2][2] != null && tiles[2][3] != null &&
-                            tiles[3][0] !=null && tiles[3][1] != null && tiles[3][2] != null && tiles[3][3] != null || n<=2){
-                                moveUp();
-                                moveLeft();
                             }*/
                         }
                         break;
