@@ -53,72 +53,25 @@ public class Game2048 extends JPanel {
                 switch (e.getKeyCode()) {
                     case (KeyEvent.VK_SPACE):
                         if(true){
-                            int downScore = 0,upScore = 0,rightScore = 0,leftScore = 0;
                             int n = r.nextInt(15);
 //                            if(n==15) {
 //                                moveDown();
 //                                moveRight();
 //                            }
 
-
-                            for (int i =0;i > 3;i++){
-                                if(tiles[0][i].getValue()==tiles[1][i].getValue()) {
-                                    downScore+=tiles[0][i].getValue();
-                                }
-                            }
-                            for (int i =0;i > 3;i++) {
-                                if (tiles[1][i].getValue() == tiles[2][i].getValue()) {
-                                    downScore+=tiles[1][i].getValue();
-                                }
-                            }
-                            for (int i = 0; i > 3; i++) {
-                                if (tiles[2][i].getValue() == tiles[3][i].getValue()) {
-                                    downScore+=tiles[2][i].getValue();
-                                }
-                            }
-                            for (int i = 0; i > 3; i++) {
-                                if (tiles[3][i].getValue() == tiles[3][i].getValue()) {
-                                    downScore+=tiles[3][i].getValue();
-                                }
-                                }
-
-                            for (int i =0;i > 3;i++){
-                                if(tiles[i][0].getValue()==tiles[i][1].getValue()) {
-                                    rightScore+=tiles[i][0].getValue();
-                                }
-                            }
-                            for (int i =0;i > 3;i++) {
-                                if (tiles[i][1].getValue() == tiles[i][2].getValue()) {
-                                    rightScore+=tiles[i][1].getValue();
-                                }
-                            }
-                            for (int i = 0; i > 3; i++) {
-                                if (tiles[i][2].getValue() == tiles[i][3].getValue()) {
-                                    rightScore+=tiles[i][2].getValue();
-                                }
-                            }
-                            for (int i = 0; i > 3; i++) {
-                                if (tiles[i][3].getValue() == tiles[i][3].getValue()) {
-                                    rightScore+=tiles[i][3].getValue();
-                                }
-                            }
-
-
-                            if (downScore>rightScore){
+                            if(scorer(tiles)==1){
+                                System.out.println(scorer(tiles));
                                 moveDown();
                             }
-                            else if (downScore<rightScore){
+                            if(scorer(tiles)==2){
+                                System.out.println(scorer(tiles));
                                 moveRight();
                             }
-                            else{
+                            if(scorer(tiles)==0){
+                                System.out.println(scorer(tiles));
                                 moveDown();
                                 moveRight();
                             }
-
-
-
-
-
 
 
 
@@ -259,6 +212,58 @@ public class Game2048 extends JPanel {
 
         int val = 2;
         tiles[row][col] = new Tile(val);
+    }
+
+    private int scorer(Tile[][] tilesscore){
+        int downScore = 0,upScore = 0,rightScore = 0,leftScore = 0;
+        for (int i =0;i > 3;i++){
+            if(tilesscore[0][i].getValue()==tilesscore[1][i].getValue()) {
+                downScore+=tilesscore[0][i].getValue();
+            }
+        }
+        for (int i =0;i > 3;i++) {
+            if (tilesscore[1][i].getValue() == tilesscore[2][i].getValue()) {
+                downScore+=tilesscore[1][i].getValue();
+            }
+        }
+        for (int i = 0; i > 3; i++) {
+            if (tilesscore[2][i].getValue() == tilesscore[3][i].getValue()) {
+                downScore+=tilesscore[2][i].getValue();
+            }
+        }
+        for (int i = 0; i > 3; i++) {
+            if (tilesscore[3][i].getValue() == tilesscore[3][i].getValue()) {
+                downScore+=tilesscore[3][i].getValue();
+            }
+        }
+
+        for (int i =0;i > 3;i++){
+            if(tilesscore[i][0].getValue()==tilesscore[i][1].getValue()) {
+                rightScore+=tilesscore[i][0].getValue();
+            }
+        }
+        for (int i =0;i > 3;i++) {
+            if (tilesscore[i][1].getValue() == tilesscore[i][2].getValue()) {
+                rightScore+=tilesscore[i][1].getValue();
+            }
+        }
+        for (int i = 0; i > 3; i++) {
+            if (tilesscore[i][2].getValue() == tilesscore[i][3].getValue()) {
+                rightScore+=tilesscore[i][2].getValue();
+            }
+        }
+
+
+
+        if (downScore>rightScore){
+            return 1; //movedown
+        }
+        else if (downScore<rightScore){
+            return 2; //moveright
+        }
+        else{
+            return 0; //movedown moveright
+        }
     }
 
     private boolean move(int countDownFrom, int yIncr, int xIncr) {
