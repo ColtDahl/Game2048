@@ -53,37 +53,38 @@ public class Game2048 extends JPanel {
                 switch (e.getKeyCode()) {
                     case (KeyEvent.VK_SPACE):
                         if(true){
-                            int n = r.nextInt(15);
+                            moveDown();
+                            moveRight();
+                            for (int i = 0; i <= 3; i++){
+
+                            }
+                            //int n = r.nextInt(15);
 //                            if(n==15) {
 //                                moveDown();
 //                                moveRight();
 //                            }
-
-                            if(scorer(tiles)==1){
-                                System.out.println(scorer(tiles));
+                            
+                            // Does not work
+                            /*if(scorer(tiles)==1){
+                                //System.out.println(scorer(tiles));
                                 moveDown();
                             }
                             if(scorer(tiles)==2){
-                                System.out.println(scorer(tiles));
+                                //System.out.println(scorer(tiles));
                                 moveRight();
                             }
                             if(scorer(tiles)==0){
-                                System.out.println(scorer(tiles));
+                                //System.out.println(scorer(tiles));
                                 moveDown();
                                 moveRight();
                             }
+*/
 
-
-
-
-
-
-
-//                            if(tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null){
-//                                moveRight();
-//                                moveDown();
-//                                moveLeft();
-//                            }
+                            if(tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null){
+                                moveRight();
+                                moveDown();
+                                moveLeft();
+                           }
 
                            /*if (tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null &&
                                     tiles[2][0] !=null && tiles[2][1] != null && tiles[2][2] != null && tiles[2][3] != null){
@@ -213,41 +214,41 @@ public class Game2048 extends JPanel {
         int val = 2;
         tiles[row][col] = new Tile(val);
     }
-
-    private int scorer(Tile[][] tilesscore){
+// Does not work
+    /*private int scorer(Tile[][] tilesscore){
         int downScore = 0,upScore = 0,rightScore = 0,leftScore = 0;
-        for (int i =0;i > 3;i++){
-            if(tilesscore[0][i].getValue()==tilesscore[1][i].getValue()) {
+        for (int i = 0;i < 3;i++){
+            if(tilesscore[0][i].getValue() == tilesscore[1][i].getValue()) {
                 downScore+=tilesscore[0][i].getValue();
             }
         }
-        for (int i =0;i > 3;i++) {
+        for (int i = 0;i < 3;i++) {
             if (tilesscore[1][i].getValue() == tilesscore[2][i].getValue()) {
                 downScore+=tilesscore[1][i].getValue();
             }
         }
-        for (int i = 0; i > 3; i++) {
+        for (int i = 0; i < 3; i++) {
             if (tilesscore[2][i].getValue() == tilesscore[3][i].getValue()) {
                 downScore+=tilesscore[2][i].getValue();
             }
         }
-        for (int i = 0; i > 3; i++) {
+        for (int i = 0; i < 3; i++) {
             if (tilesscore[3][i].getValue() == tilesscore[3][i].getValue()) {
                 downScore+=tilesscore[3][i].getValue();
             }
         }
 
-        for (int i =0;i > 3;i++){
+        for (int i = 0;i < 3;i++){
             if(tilesscore[i][0].getValue()==tilesscore[i][1].getValue()) {
                 rightScore+=tilesscore[i][0].getValue();
             }
         }
-        for (int i =0;i > 3;i++) {
+        for (int i = 0;i < 3;i++) {
             if (tilesscore[i][1].getValue() == tilesscore[i][2].getValue()) {
                 rightScore+=tilesscore[i][1].getValue();
             }
         }
-        for (int i = 0; i > 3; i++) {
+        for (int i = 0; i < 3; i++) {
             if (tilesscore[i][2].getValue() == tilesscore[i][3].getValue()) {
                 rightScore+=tilesscore[i][2].getValue();
             }
@@ -264,7 +265,7 @@ public class Game2048 extends JPanel {
         else{
             return 0; //movedown moveright
         }
-    }
+    }*/
 
     private boolean move(int countDownFrom, int yIncr, int xIncr) {
         boolean moved = false;
