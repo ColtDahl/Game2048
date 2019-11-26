@@ -15,7 +15,7 @@ public class Game2048 extends JPanel {
             new Color(0xffc4c3), new Color(0xE7948e), new Color(0xbe7e56),
             new Color(0xbe5e56), new Color(0x9c3931), new Color(0x701710)};
 
-    final static int target = 2048;
+    final static int target = 16384;
 
     static int highest;
     static int score;
@@ -28,6 +28,7 @@ public class Game2048 extends JPanel {
 
 
     private Tile[][] tiles;
+    private Tile[][] tilesTemp;
     private int side = 4;
     private State gamestate = State.start;
     private boolean checkingAvailableMoves;
@@ -50,37 +51,19 @@ public class Game2048 extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 Random r = new Random();
+                int i = 0;
                 switch (e.getKeyCode()) {
                     case (KeyEvent.VK_SPACE):
-                        if(true){
-                            //moveDown();
-
-                            //int n = r.nextInt(15);
-//                            if(n==15) {
-//                                moveDown();
-//                                moveRight();
-//                            }
-
-                            if(scorer(tiles)==1){
-                                System.out.println(scorer(tiles));
-                                moveDown();
-                            }
-                            if(scorer(tiles)==2){
-                                System.out.println(scorer(tiles));
-                                moveRight();
-                            }
-                            if(scorer(tiles)==0){
-                                System.out.println(scorer(tiles));
-                                moveDown();
-                                moveRight();
-                            }
-
-                            /*if(tiles[3][3] != null && tiles[3][0] != null && tiles[3][1] != null && tiles[3][2] != null){
-                                moveRight();
-                                moveDown();
+                        for(int item: heuristic(tiles)){
+                            if (item == 1)
                                 moveLeft();
-                           }*/
-                        }
+                            if (item == 2)
+                                moveUp();
+                            if (item == 3)
+                                moveRight();
+                            if (item == 4)
+                                moveDown();
+                    }
                         break;
                     case(KeyEvent.VK_ESCAPE):
                         if(true) {
@@ -123,14 +106,61 @@ public class Game2048 extends JPanel {
         drawGrid(g);
     }
 
+
+
+    int[] heuristic(Tile[][] n){
+        movesAvailable();
+        int moveset[] = {0,0,0,0,0};
+        int testmoveset[] = {0,0,0,0,0};
+        int maxValue = 0;
+        int bf = 0;
+        while(movesAvailable()) {
+            for (int a = 0; a < 5; a++) {
+                testmoveset[0] = a;
+                for (int b = 0; b < 5; b++) {
+                    testmoveset[1] = b;
+                    for (int c = 0; c < 5; c++) {
+                        testmoveset[2] = c;
+                        for (int d = 0; d < 5; d++) {
+                            testmoveset[3] = d;
+                            for (int e = 0; e < 5; e++) {
+                                testmoveset[4] = e;
+                                for (int item : testmoveset) {
+                                    if (item == 1)
+                                        moveLeftTest();
+                                    if (item == 2)
+                                        moveUpTest();
+                                    if (item == 3)
+                                        moveRightTest();
+                                    if (item == 4)
+                                        moveDownTest();
+                                    tilesTemp = n;
+                                    bf++;
+                                    System.out.println(bf);
+                                }
+                                if (highest > maxValue) {
+                                    maxValue = highest;
+                                    moveset = testmoveset;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        tiles = n;
+        return moveset;
+    };
+
     void startGame() {
         if (gamestate != State.running) {
             score = 0;
             highest = 0;
             gamestate = State.running;
             tiles = new Tile[side][side];
-            addRandomTile();
-            addRandomTile();
+            addTile();
+            tilesTemp = tiles;
         }
     }
 
@@ -191,7 +221,7 @@ public class Game2048 extends JPanel {
     }
 
 
-    private void addRandomTile() {
+    private void addTile() {
         int pos =  -1;//rand.nextInt(side * side);
         int row, col;
         do {
@@ -209,57 +239,6 @@ public class Game2048 extends JPanel {
 */
     private void skip(){
         int position = -1;
-    }
-
-    private int scorer(Tile[][] tilesscore){
-        int downScore = 0,upScore = 0,rightScore = 0,leftScore = 0;
-        for (int i = 0;i <= 3;i++) {
-            if (tilesscore[0][i].getValue() == tilesscore[1][i].getValue()) {
-                downScore += tilesscore[0][i].getValue();
-                return 1;
-                }
-            else if(tilesscore[0][i] == null){ //try to make it handle null
-                return 0;
-                }
-            }
-            for (int i = 0;i < 3;i++) {
-                if (tilesscore[1][i].getValue() == tilesscore[2][i].getValue()) {
-                    downScore += tilesscore[1][i].getValue();
-                }
-            }
-
-            for (int i = 0;i < 3;i++) {
-                if (tilesscore[2][i].getValue() == tilesscore[3][i].getValue()) {
-                    downScore += tilesscore[2][i].getValue();
-                }
-            }
-            for (int i = 0;i < 3;i++) {
-                if (tilesscore[i][0].getValue() == tilesscore[i][1].getValue()) {
-                    rightScore += tilesscore[i][0].getValue();
-                }
-            }
-            for (int i = 0;i < 3;i++) {
-                if (tilesscore[i][1].getValue() == tilesscore[i][2].getValue()) {
-                    rightScore += tilesscore[i][1].getValue();
-                }
-            }
-            for (int i = 0;i < 3;i++) {
-                if (tilesscore[i][2].getValue() == tilesscore[i][3].getValue()) {
-                    rightScore += tilesscore[i][2].getValue();
-                }
-            }
-
-
-
-        if (downScore>rightScore){
-            return 1; //movedown
-        }
-        else if (downScore<rightScore){
-            return 2; //moveright
-        }
-        else{
-            return 0; //movedown moveright
-        }
     }
 
     private boolean move(int countDownFrom, int yIncr, int xIncr) {
@@ -315,7 +294,7 @@ public class Game2048 extends JPanel {
         if (moved) {
             if (highest < target) {
                 clearMerged();
-                addRandomTile();
+                addTile();
                 if (!movesAvailable()) {
                    // gamestate = State.over;
                 }
@@ -325,6 +304,72 @@ public class Game2048 extends JPanel {
 
         return moved;
     }
+
+    private boolean moveTemp(int countDownFrom, int yIncr, int xIncr) {
+        boolean moved = false;
+
+        for (int i = 0; i < side * side; i++) {
+            int j = Math.abs(countDownFrom - i);
+
+            int r = j / side;
+            int c = j % side;
+
+            if (tilesTemp[r][c] == null)
+                continue;
+
+            int nextR = r + yIncr;
+            int nextC = c + xIncr;
+
+            while (nextR >= 0 && nextR < side && nextC >= 0 && nextC < side) {
+
+                Tile next = tilesTemp[nextR][nextC];
+                Tile curr = tilesTemp[r][c];
+
+                if (next == null) {
+
+                    if (checkingAvailableMoves)
+                        return true;
+
+                    tilesTemp[nextR][nextC] = curr;
+                    tilesTemp[r][c] = null;
+                    r = nextR;
+                    c = nextC;
+                    nextR += yIncr;
+                    nextC += xIncr;
+                    moved = true;
+
+                } else if (next.canMergeWith(curr)) {
+
+                    if (checkingAvailableMoves)
+                        return true;
+
+                    int value = next.mergeWith(curr);
+                    if (value > highest)
+                        highest = value;
+                    score += value;
+                    tilesTemp[r][c] = null;
+                    moved = true;
+                    break;
+                } else
+                    break;
+            }
+        }
+
+        if (highest < target) {
+            clearMerged();
+            addTile();
+            if (!movesAvailable()) {
+                 gamestate = State.over;
+                 return moved;
+            }
+        }
+
+
+
+        return moved;
+    }
+
+
 
     boolean moveUp() {
         return move(0, -1, 0);
@@ -340,6 +385,22 @@ public class Game2048 extends JPanel {
 
     boolean moveRight() {
         return move(side * side - 1, 0, 1);
+    }
+
+    boolean moveUpTest() {
+        return moveTemp(0, -1, 0);
+    }
+
+    boolean moveDownTest() {
+        return moveTemp(side * side - 1, 1, 0);
+    }
+
+    boolean moveLeftTest() {
+        return moveTemp(0, 0, -1);
+    }
+
+    boolean moveRightTest() {
+        return moveTemp(side * side - 1, 0, 1);
     }
 
     void clearMerged() {
