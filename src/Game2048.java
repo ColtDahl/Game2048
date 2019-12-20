@@ -53,7 +53,7 @@ public class Game2048 extends JPanel {
                 Random r = new Random();
                 int i = 0;
                 switch (e.getKeyCode()) {
-                    case (KeyEvent.VK_SPACE):
+                    case (KeyEvent.VK_SPACE): //press to activate brute force for first 6 turns
                         for(int item: heuristic(tiles)){
                             if (item == 1)
                                 moveLeft();
@@ -108,52 +108,56 @@ public class Game2048 extends JPanel {
 
 
 
-    int[] heuristic(Tile[][] n){
+    int[] heuristic(Tile[][] n) { //brute force heuristic
         movesAvailable();
-        int moveset[] = {0,0,0,0,0};
-        int testmoveset[] = {0,0,0,0,0};
+        int moveset[] = {0, 0, 0, 0, 0};
+        int testmoveset[] = {0, 0, 0, 0, 0};
         int maxValue = 0;
         int bf = 0;
-        while(movesAvailable()) {
-            for (int a = 0; a < 5; a++) {
-                testmoveset[0] = a;
-                for (int b = 0; b < 5; b++) {
-                    testmoveset[1] = b;
-                    for (int c = 0; c < 5; c++) {
-                        testmoveset[2] = c;
-                        for (int d = 0; d < 5; d++) {
-                            testmoveset[3] = d;
-                            for (int e = 0; e < 5; e++) {
-                                testmoveset[4] = e;
-                                for (int item : testmoveset) {
-                                    if (item == 1)
-                                        moveLeftTest();
-                                    if (item == 2)
-                                        moveUpTest();
-                                    if (item == 3)
-                                        moveRightTest();
-                                    if (item == 4)
-                                        moveDownTest();
-                                    tilesTemp = n;
-                                    bf++;
-                                    System.out.println(bf);
+        // while(movesAvailable()) { //while you can move, check the 6 next moves for which is the highest
+        for (int a = 0; a < 5; a++) {
+            testmoveset[0] = a;
+            for (int b = 0; b < 5; b++) {
+                testmoveset[1] = b;
+                for (int c = 0; c < 5; c++) {
+                    testmoveset[2] = c;
+                    for (int d = 0; d < 5; d++) {
+                        testmoveset[3] = d;
+                        for (int e = 0; e < 5; e++) {
+                            testmoveset[4] = e;
+                            for (int item : testmoveset) {
+                                if (bf == 220) {
+                                    break;
                                 }
-                                if (highest > maxValue) {
-                                    maxValue = highest;
-                                    moveset = testmoveset;
-                                }
+                                if (item == 1)
+                                    moveLeftTest();
+                                if (item == 2)
+                                    moveUpTest();
+                                if (item == 3)
+                                    moveRightTest();
+                                if (item == 4)
+                                    moveDownTest();
+                                tilesTemp = n;
+                                bf++;
+                                System.out.println(bf);
+                            }
+                            if (highest > maxValue) {
+                                maxValue = highest;
+                                moveset = testmoveset;
                             }
                         }
                     }
                 }
             }
         }
+    //}
 
         tiles = n;
         return moveset;
     }
 
 
+    //will give a score on equal valued tiles that are next to each other, equal to the value of that tile
     private int weighting(Tile[][] tilesscore){
         int downScore = 0,upScore = 0,rightScore = 0,leftScore = 0;
         for (int i = 0;i <= 3;i++) {
@@ -252,7 +256,9 @@ public class Game2048 extends JPanel {
                 g.drawString("game over", 400, 350);
 
             g.setColor(gridColor);
-            g.drawString("click to start heuristic", 330, 470);
+            g.drawString("click to start", 330, 470);
+            g.drawString("arrow keys to move, press space to activate the brute force heuristic", 200, 670);
+
         }
     }
 
