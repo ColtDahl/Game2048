@@ -56,9 +56,9 @@ public class Game2048 extends JPanel {
                 int i = 0;
                 switch (e.getKeyCode()) {
                     case (KeyEvent.VK_SPACE): //press to activate brute force for first 6 turns
-                        for(int item: heuristic(tiles)){
-                            if (item == 1)
-                                moveLeft();
+                        for(int item: heuristic(tiles)){ //the heuristic function sends back an array of numbers, and each of these numbers is
+                            if (item == 1)               //interpreted as a direction by this forloop, so if the array is 1,2,3,1
+                                moveLeft();              //the moves the computer will make are "left, up, right, left"
                             if (item == 2)
                                 moveUp();
                             if (item == 3)
@@ -67,7 +67,7 @@ public class Game2048 extends JPanel {
                                 moveDown();
                     }
                         break;
-                    case(KeyEvent.VK_ESCAPE):
+                    case(KeyEvent.VK_ESCAPE): //restart
                         if(true) {
                             repaint();
                             gamestate = State.start;
@@ -221,14 +221,14 @@ public class Game2048 extends JPanel {
             highest = 0;
             gamestate = State.running;
             tiles = new Tile[side][side];
-            tilesTemp = new Tile[sideTemp][sideTemp];
+            tilesTemp = new Tile[sideTemp][sideTemp]; //the temporary tiles made for manipulation by heuristic
 
             addTile();
             tilesTemp = tiles;
         }
     }
 
-    void drawGrid(Graphics2D g) {
+    void drawGrid(Graphics2D g) { //kewl graphicks
         g.setColor(gridColor);
         g.fillRoundRect(200, 100, 499, 499, 15, 15);
 
@@ -371,8 +371,8 @@ public class Game2048 extends JPanel {
 
         return moved;
     }
-    //The moves in the fake 2048, what you don't see, and what is tracked in the brute force heuristic, supposdely
-    //Doesn't se
+    //The moves in the fake 2048, what you don't see, and what is tracked in the brute force heuristic
+    // should be completely seperate from nonTempMove and nonTempTiles 
     private boolean moveTemp(int countDownFrom, int yIncr, int xIncr) {
         boolean moved = false;
 
