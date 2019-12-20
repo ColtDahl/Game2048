@@ -151,7 +151,62 @@ public class Game2048 extends JPanel {
 
         tiles = n;
         return moveset;
-    };
+    }
+
+
+    private int weighting(Tile[][] tilesscore){
+        int downScore = 0,upScore = 0,rightScore = 0,leftScore = 0;
+        for (int i = 0;i <= 3;i++) {
+            if (tilesscore[0][i].getValue() == tilesscore[1][i].getValue()) {
+                downScore += tilesscore[0][i].getValue();
+                return 1;
+            }
+            else if(tilesscore[0][i] == null){ //try to make it handle null
+                return 0;
+            }
+        }
+        for (int i = 0;i < 3;i++) {
+            if (tilesscore[1][i].getValue() == tilesscore[2][i].getValue()) {
+                downScore += tilesscore[1][i].getValue();
+            }
+        }
+
+        for (int i = 0;i < 3;i++) {
+            if (tilesscore[2][i].getValue() == tilesscore[3][i].getValue()) {
+                downScore += tilesscore[2][i].getValue();
+            }
+        }
+        for (int i = 0;i < 3;i++) {
+            if (tilesscore[i][0].getValue() == tilesscore[i][1].getValue()) {
+                rightScore += tilesscore[i][0].getValue();
+            }
+        }
+        for (int i = 0;i < 3;i++) {
+            if (tilesscore[i][1].getValue() == tilesscore[i][2].getValue()) {
+                rightScore += tilesscore[i][1].getValue();
+            }
+        }
+        for (int i = 0;i < 3;i++) {
+            if (tilesscore[i][2].getValue() == tilesscore[i][3].getValue()) {
+                rightScore += tilesscore[i][2].getValue();
+            }
+        }
+
+
+
+        if (downScore>rightScore){
+            return 1; //movedown
+        }
+        else if (downScore<rightScore){
+            return 2; //moveright
+        }
+        else{
+            return 0; //movedown moveright
+        }
+    }
+
+
+
 
     void startGame() {
         if (gamestate != State.running) {
