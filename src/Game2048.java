@@ -15,7 +15,7 @@ public class Game2048 extends JPanel {
             new Color(0xffc4c3), new Color(0xE7948e), new Color(0xbe7e56),
             new Color(0xbe5e56), new Color(0x9c3931), new Color(0x701710)};
 
-    final static int target = 16384;
+    final static int target = 16384; //the original target for our brute force :(
 
     static int highest;
     static int score;
@@ -128,7 +128,7 @@ public class Game2048 extends JPanel {
                         for (int e = 0; e < 5; e++) {
                             testmoveset[4] = e;
                             for (int item : testmoveset) {
-                                if (bf == 220) {
+                                if (bf == 224) { //the final state of the deterministic heuristic
                                     break;
                                 }
                                 if (item == 1)
@@ -306,6 +306,7 @@ public class Game2048 extends JPanel {
         int position = -1;
     }
 
+    //The moves in the real 2048, what you see on screen
     private boolean move(int countDownFrom, int yIncr, int xIncr) {
         boolean moved = false;
 
@@ -369,15 +370,16 @@ public class Game2048 extends JPanel {
 
         return moved;
     }
-
+    //The moves in the fake 2048, what you don't see, and what is tracked in the brute force heuristic, supposdely
+    //Doesn't se
     private boolean moveTemp(int countDownFrom, int yIncr, int xIncr) {
         boolean moved = false;
 
         for (int i = 0; i < sideTemp * sideTemp; i++) {
             int j = Math.abs(countDownFrom - i);
 
-            int r = j / side;
-            int c = j % side;
+            int r = j / sideTemp;
+            int c = j % sideTemp;
 
             if (tilesTemp[r][c] == null)
                 continue;
