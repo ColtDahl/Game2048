@@ -30,6 +30,8 @@ public class Game2048 extends JPanel {
     private Tile[][] tiles;
     private Tile[][] tilesTemp;
     private int side = 4;
+    private int sideTemp = 4;
+
     private State gamestate = State.start;
     private boolean checkingAvailableMoves;
 
@@ -218,6 +220,8 @@ public class Game2048 extends JPanel {
             highest = 0;
             gamestate = State.running;
             tiles = new Tile[side][side];
+            tilesTemp = new Tile[sideTemp][sideTemp];
+
             addTile();
             tilesTemp = tiles;
         }
@@ -369,7 +373,7 @@ public class Game2048 extends JPanel {
     private boolean moveTemp(int countDownFrom, int yIncr, int xIncr) {
         boolean moved = false;
 
-        for (int i = 0; i < side * side; i++) {
+        for (int i = 0; i < sideTemp * sideTemp; i++) {
             int j = Math.abs(countDownFrom - i);
 
             int r = j / side;
@@ -381,7 +385,7 @@ public class Game2048 extends JPanel {
             int nextR = r + yIncr;
             int nextC = c + xIncr;
 
-            while (nextR >= 0 && nextR < side && nextC >= 0 && nextC < side) {
+            while (nextR >= 0 && nextR < sideTemp && nextC >= 0 && nextC < sideTemp) {
 
                 Tile next = tilesTemp[nextR][nextC];
                 Tile curr = tilesTemp[r][c];
