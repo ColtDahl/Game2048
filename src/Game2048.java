@@ -159,7 +159,8 @@ public class Game2048 extends JPanel {
     }
 
 
-    //will give a score on equal valued tiles that are next to each other, equal to the value of that tile
+    //will give a score on equal valued tiles that are next to each other, equal to the value of that tile,
+    // ended up being unused in final because of its nature
     private int weighting(Tile[][] tilesscore){
         int downScore = 0,upScore = 0,rightScore = 0,leftScore = 0;
         for (int i = 0;i <= 3;i++) {
