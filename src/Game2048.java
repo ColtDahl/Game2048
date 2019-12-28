@@ -3,6 +3,9 @@ import java.awt.event.*;
 import java.util.Random;
 import javax.swing.*;
 
+/* Source for our code: https://gist.github.com/hevertonfreitas/b7dd41cdba2be7c571ff0737ab7b296a
+*  Thanks to hevertonfreitas, we were able to get a nice looking board to start working with. Thank you so much.
+*  All credit goes to hevertonfreitas.*/
 public class Game2048 extends JPanel {
 
     enum State {
